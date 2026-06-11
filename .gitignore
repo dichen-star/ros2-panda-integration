@@ -1,0 +1,14 @@
+# colcon 编译产物（绝不提交，每台机器各自编译生成）
+build/
+install/
+log/
+
+# Python 缓存
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# 编辑器/系统杂项
+.vscode/
+*.swp
+.DS_Store
