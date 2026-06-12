@@ -15,7 +15,7 @@ setup(
     zip_safe=True,
     maintainer='xia',
     maintainer_email='2427815879@qq.com',
-    description='Panda MuJoCo simulation node for ROS 2',
+    description='Panda MuJoCo simulation and control nodes for ROS 2',
     license='Apache-2.0',
     extras_require={
         'test': [
@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'sim_node = panda_sim.sim_node:main',
             'state_monitor = panda_sim.state_monitor:main',
+            'controller_node = panda_sim.controller_node:main',
         ],
     },
 )
