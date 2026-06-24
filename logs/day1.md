@@ -6,7 +6,7 @@
 - 写 talker / listener 两个节点，/chatter 话题 std_msgs/String 通信
 - colcon build 通过，三终端验证：node list / topic info 正常
 
-## 踩的坑（面试素材）
+## 踩的坑
 1. .bashrc 里 source 的是 /opt/ros/humble，但实际装的是 jazzy → 路径不存在报错。
    教训：ROS 发行版与 Ubuntu 版本绑定（24.04→Jazzy）。
 2. 第二个终端报 "Package not found"：该终端没 source 工作空间。
