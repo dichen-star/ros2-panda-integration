@@ -9,6 +9,7 @@ import sys
 import time
 import numpy as np
 
+from panda_sim.qos_profiles import SENSOR_QOS, COMMAND_QOS
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
@@ -45,8 +46,8 @@ class PolicyNode(Node):
         self.get_logger().info(f"Diffusion Policy 已加载（T={DP_T}）")
 
         self.sub = self.create_subscription(
-            JointState, '/joint_states', self.state_callback, 10)
-        self.chunk_pub = self.create_publisher(Float64MultiArray, '/action_chunk', 10)
+            JointState, '/joint_states', self.state_callback, SENSOR_QOS)
+        self.chunk_pub = self.create_publisher(Float64MultiArray, '/action_chunk', COMMAND_QOS)
 
         self.current_q = None
 
@@ -106,7 +107,8 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

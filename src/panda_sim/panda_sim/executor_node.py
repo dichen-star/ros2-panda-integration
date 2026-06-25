@@ -8,6 +8,7 @@
 from collections import deque
 import numpy as np
 
+from panda_sim.qos_profiles import COMMAND_QOS
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
@@ -23,8 +24,8 @@ class ExecutorNode(Node):
         super().__init__('executor_node')
 
         self.sub = self.create_subscription(
-            Float64MultiArray, '/action_chunk', self.chunk_callback, 10)
-        self.cmd_pub = self.create_publisher(JointState, '/joint_commands', 10)
+            Float64MultiArray, '/action_chunk', self.chunk_callback, COMMAND_QOS)
+        self.cmd_pub = self.create_publisher(JointState, '/joint_commands', COMMAND_QOS)
 
         # 动作缓冲队列：每个元素是一个 7 维目标
         self.buffer = deque()
@@ -104,7 +105,8 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

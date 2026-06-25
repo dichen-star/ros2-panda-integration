@@ -7,6 +7,7 @@ MuJoCo 仿真节点（闭环版）:
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
+from panda_sim.qos_profiles import SENSOR_QOS, COMMAND_QOS
 import mujoco
 import numpy as np
 import time
@@ -33,9 +34,9 @@ class PandaSimNode(Node):
         self.target_q = PANDA_HOME_THETA.copy()
         self.data.ctrl[:7] = self.target_q   # 内置 actuator 的目标
 
-        self.pub = self.create_publisher(JointState, '/joint_states', 10)
+        self.pub = self.create_publisher(JointState, '/joint_states', SENSOR_QOS)
         self.sub = self.create_subscription(
-            JointState, '/joint_commands', self.command_callback, 10)
+            JointState, '/joint_commands', self.command_callback, COMMAND_QOS)
 
         self.control_dt = 0.02
         self.physics_dt = self.model.opt.timestep
@@ -104,7 +105,8 @@ def main(args=None):
         pass
     finally:
         node.destroy_node()
-        rclpy.shutdown()
+        if rclpy.ok():
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':
